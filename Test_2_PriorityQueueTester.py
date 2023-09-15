@@ -12,17 +12,16 @@ class MyTestCase(unittest.TestCase):
         encoder = HuffmanEncoder("How much wood would a woodchuck chuck if a woodchuck could chuck wood?")
         encoder.build_frequency_dictionary()
         encoder.build_priority_queue()
-        PQ:PriorityQueue[str] = encoder.frequency_queue
+        PQ: PriorityQueue[str] = encoder.frequency_queue
 
-        expected = [[1, "H"], [1, "m"], [1, "i"], [5, "h"], [2, "l"], [4, "k"], [1, "f"], [12, " "], [6, "d"], [11, "o"], [2, "a"], [7, "u"], [6, "w"], [10, "c"], [1, "?"]]
+        expected = [[1, "H"], [1, "m"], [1, "i"], [5, "h"], [2, "l"], [4, "k"], [1, "f"], [12, " "], [6, "d"],
+                    [11, "o"], [2, "a"], [7, "u"], [6, "w"], [10, "c"], [1, "?"]]
         # expected_pq:PriorityQueue[str] = PriorityQueue[str](tree=expected, isMinHeap=True)
-
 
         self.assertFalse(PQ.is_empty(), "The priority queue should not be empty.")
         for i in range(len(PQ.my_tree)):
-            self.assertEqual(expected[i][0],PQ.my_tree[i][0])
-            self.assertEqual(expected[i][1],PQ.my_tree[i][1].value)
-
+            self.assertEqual(expected[i][0], PQ.my_tree[i][0])
+            self.assertEqual(expected[i][1], PQ.my_tree[i][1].value)
 
     def test_PQ_long(self):
         """
@@ -30,7 +29,7 @@ class MyTestCase(unittest.TestCase):
         :param self:
         :return:
         """
-        #text from "Snow Crash" by Neal Stephenson, copyright 1992, [four-letter words slightly altered.]
+        # text from "Snow Crash" by Neal Stephenson, copyright 1992, [four-letter words slightly altered.]
         sample_text = """Chapter One
         
         The Deliverator belongs to an elite order, a hallowed subcategory. He's got esprit up to here. Right now, he is preparing to carry out his third mission of the night. His uniform is black as activated charcoal, filtering the very light out of the air. A bullet will bounce off its arachnofiber weave like a wren hitting a patio door, but excess perspiration wafts through it like a breeze through a freshly napalmed forest. Where his body has bony extremities, the suit has sintered armorgel: feels like gritty jello, protects like a stack of telephone books.
@@ -58,16 +57,17 @@ class MyTestCase(unittest.TestCase):
         encoder = HuffmanEncoder(sample_text)
         encoder.build_frequency_dictionary()
         encoder.build_priority_queue()
-        PQ:PriorityQueue[str] = encoder.frequency_queue
+        PQ: PriorityQueue[str] = encoder.frequency_queue
 
-        print (PQ)
+        print(PQ)
 
-        expected = [[1, "C"], [1, "O"], [1, "U"], [4, "A"], [1, ";"], [1, "K"], [1, "Z"], [4, "x"], [4, ":"], [1, "7"],\
-        [1, "1"], [2, "Y"], [2, "R"], [1, "I"], [1, ")"], [56, "v"], [42, "k"], [8, "z"], [4, "j"], [22, "\n"], [7, "S"],\
-        [3, "G"], [1, "L"], [21, "D"], [4, "P"], [4, "?"], [2, "q"], [10, "H"], [1, "("], [3, "\""], [1, "J"], [930, " "],\
-        [66, "p"], [263, "o"], [52, "f"], [208, "h"], [59, "b"], [84, "g"], [5, "W"], [320, "t"], [113, "d"], [207, "s"],\
-        [8, "-"], [224, "n"], [46, ","], [57, "w"], [8, "B"], [433, "e"], [96, "c"], [99, "u"], [6, "*"], [220, "r"], \
-        [43, "."], [63, "y"], [6, "—"], [279, "a"], [17, "T"], [157, "l"], [3, "N"], [272, "i"], [13, "\'"], [58, "m"]]
+        expected = [[1, "C"], [1, "O"], [1, "U"], [4, "A"], [1, ";"], [1, "K"], [1, "Z"], [4, "x"], [4, ":"], [1, "7"],
+                    [1, "1"], [2, "Y"], [2, "R"], [1, "I"], [1, ")"], [56, "v"], [42, "k"], [8, "z"], [4, "j"],
+                    [22, "\n"], [7, "S"], [1, "L"], [21, "D"], [4, "P"], [4, "?"], [2, "q"], [10, "H"], [1, "("],
+                    [3, "\""], [1, "J"], [930, " "], [66, "p"], [263, "o"], [52, "f"], [208, "h"], [59, "b"],
+                    [84, "g"], [5, "W"], [320, "t"], [113, "d"], [207, "s"], [224, "n"], [46, ","], [57, "w"],
+                    [8, "B"], [433, "e"], [96, "c"], [99, "u"], [6, "*"], [220, "r"], [43, "."], [63, "y"], [6, "—"],
+                    [279, "a"], [17, "T"], [157, "l"], [3, "N"], [272, "i"], [13, "\'"], [58, "m"]]
 
         self.assertFalse(PQ.is_empty(), "The priority queue should not be empty.")
         for i in range(len(PQ.my_tree)):

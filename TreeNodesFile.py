@@ -15,7 +15,7 @@ class TreeNode(Generic[T]):
     def has_right(self) -> bool:
         return self.right is not None
 
-    def print_tree(self, indentation_level:int =0):
+    def print_tree(self, indentation_level: int = 0):
         """
             used to visualize this tree - not implemented in TreeNode
         """
@@ -24,7 +24,7 @@ class TreeNode(Generic[T]):
 
 # ---------------------------------------------------------------------------
 class LeafNode(TreeNode[T]):
-    def __init__(self, value:T=None):
+    def __init__(self, value: T = None):
         super().__init__(value=value, left=None, right=None)
 
     def has_left(self) -> bool:
@@ -55,7 +55,7 @@ class LeafNode(TreeNode[T]):
 
 # ---------------------------------------------------------------------------
 class JointNode(TreeNode[T]):
-    def __init__(self, left:"TreeNode[T]", right:"TreeNode[T]"):
+    def __init__(self, left: "TreeNode[T]", right: "TreeNode[T]"):
         super().__init__(None, left, right)
         if left is None or right is None:
             raise RuntimeError(
@@ -75,14 +75,14 @@ class JointNode(TreeNode[T]):
             result += self.left.__repr__()
         if self.has_right():
             result += self.right.__repr__()
-        return result;
+        return result
 
-    def print_tree(self, indentation_level:int=0):
+    def print_tree(self, indentation_level: int = 0):
         """
             used to visualize this tree - not implemented in TreeNode
         """
         if self.has_left():
             self.left.print_tree(indentation_level + 1)
-        print(f"{' ' * (4 * indentation_level)}",end="<\n")
+        print(f"{' ' * (4 * indentation_level)}", end="<\n")
         if self.has_right():
             self.right.print_tree(indentation_level + 1)
