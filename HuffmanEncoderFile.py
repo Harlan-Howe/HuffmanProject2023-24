@@ -77,18 +77,18 @@ class HuffmanEncoder:
         #   X
         #  popped:
         #   18
-        #        J
-        #      <
-        #        Z
+        #       J
+        #     <
+        #       Z
         #   <
         #     Q
         #  pushed:
         #   31
         #     X
         #   <
-        #          J
-        #        <
-        #          Z
+        #         J
+        #       <
+        #         Z
         #     <
         #       Q
         # ----------------------
