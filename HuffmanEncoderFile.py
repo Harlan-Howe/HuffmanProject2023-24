@@ -112,6 +112,12 @@ class HuffmanEncoder:
             # and right, so this must be the real root node.
 
         if isinstance(root, JointNode):  # is this node a joint node?
+            # The assertion on the next line should never trigger... (i.e., the statement should always be true),
+            # but if it does trigger on a false, you should know about it!
+            assert root.left is not None and root.right is not None, "Found a joint node with None for a child. "\
+                   "That shouldn't happen... there's something wrong with your encoding tree."
+
+            # as you might imagine, the JointNodes are handled recursively.
             left_list = path_so_far[:]  # makes a copy
             left_list.append(0)
             self.build_encode_dictionary_with_tree(root.left, left_list)
@@ -120,7 +126,7 @@ class HuffmanEncoder:
             self.build_encode_dictionary_with_tree(root.right, right_list)
 
         else:  # then this must be a leaf node.... Note that this is the only time we actually add anything to the
-            # dictionary.
+            # dictionary. And it's the base case.
             self.encode_dictionary[root.value] = path_so_far
 
     def encode_message(self, message_to_encode: str) -> List[int]:
