@@ -41,7 +41,7 @@ class HuffmanEncoder:
         (That is, you'll need to make a new LeafNode[str] for each item in self.freq_dict and add it to the PQ.)
 
         """
-        self.frequency_queue: PriorityQueue[TreeNode[str]] = PriorityQueue[TreeNode[T]](isMinHeap=True)
+        self.frequency_queue: PriorityQueue[TreeNode[str]] = PriorityQueue[TreeNode[T]](is_min_heap=True)
         # ----------------------
         # TODO: You'll be writing this part! Insert your code here.
 
@@ -132,7 +132,7 @@ class HuffmanEncoder:
     def encode_message(self, message_to_encode: str) -> List[int]:
         """
         Use the self.encodingDictionary to convert each letter into a sequence of 1's and 0's (bits),
-        and generate a (very) long array of bits, which you should return.
+        and generate a (very) long list of bits, which you should return.
         :param message_to_encode: a string, all of whose characters should be contained in the encoding tree.
         :return: a (very long) list of ones and zeros.
         """
