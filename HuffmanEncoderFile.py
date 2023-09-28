@@ -66,9 +66,31 @@ class HuffmanEncoder:
         # ----------------------
         # TODO: You'll be writing this part! Insert your code here.
 
-        # suggestion: each time through your loop, print out the
+        # suggestion: each time through your loop, log the
         # priority queue to help you debug.
-
+        # OR
+        # Each time you pop a node, log its priority and the node itself (via the node's printTree method)
+        # and each time you are about to push a node, print its priority and the node itself.
+        #  e.g.:
+        #  popped:
+        #   13
+        #   X
+        #  popped:
+        #   18
+        #        J
+        #      <
+        #        Z
+        #   <
+        #     Q
+        #  pushed:
+        #   31
+        #     X
+        #   <
+        #          J
+        #        <
+        #          Z
+        #     <
+        #       Q
         # ----------------------
 
         last_PQ_Node = self.frequency_queue.pop()
