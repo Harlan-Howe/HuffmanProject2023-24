@@ -1,5 +1,6 @@
 from typing import Generic, TypeVar
 
+
 T = TypeVar("T")
 
 
@@ -15,11 +16,12 @@ class TreeNode(Generic[T]):
     def has_right(self) -> bool:
         return self.right is not None
 
-    def print_tree(self, indentation_level: int = 0):
+    def string_of_tree(self, indentation_level: int = 0):
         """
-            used to visualize this tree - not implemented in TreeNode
+            builds a string to visualize this tree. -- not implemented in abstract TreeNode.
+        :param indentation_level: number of tabs before this line and its children
+        :return: string describing this node and its children.
         """
-        pass
 
 
 # ---------------------------------------------------------------------------
@@ -46,14 +48,16 @@ class LeafNode(TreeNode[T]):
             return f"[\\n]"
         return f"[{self.value}]"
 
-    def print_tree(self, indentation_level=0):
+    def string_of_tree(self, indentation_level: int = 0):
         """
-            used to visualize this tree - not implemented in TreeNode
+        Builds a string to visualize this tree.
+        :param indentation_level: number of tabs before this line and its children
+        :return: string describing this node
         """
-        print(f"{' ' * (4 * indentation_level)}{self}")
-
-
+        return f"{' ' * (4 * indentation_level)}{self}\n"
 # ---------------------------------------------------------------------------
+
+
 class JointNode(TreeNode[T]):
     def __init__(self, left: "TreeNode[T]", right: "TreeNode[T]"):
         super().__init__(None, left, right)
@@ -77,12 +81,16 @@ class JointNode(TreeNode[T]):
             result += self.right.__repr__()
         return result
 
-    def print_tree(self, indentation_level: int = 0):
+    def string_of_tree(self, indentation_level: int = 0) -> str:
         """
-            used to visualize this tree - not implemented in TreeNode
+        Builds a string to visualize this subtree.
+        :param indentation_level: number of tabs before this line and its children
+        :return: string describing this node and its children.
         """
+        output = ""
         if self.has_left():
-            self.left.print_tree(indentation_level + 1)
-        print(f"{' ' * (4 * indentation_level)}", end="<\n")
+            output += self.left.string_of_tree(indentation_level + 1)
+        output += f"{' ' * (4 * indentation_level)}<\n"
         if self.has_right():
-            self.right.print_tree(indentation_level + 1)
+            output += self.right.string_of_tree(indentation_level + 1)
+        return output
