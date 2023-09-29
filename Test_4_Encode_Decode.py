@@ -1,11 +1,11 @@
 import unittest
 from HuffmanEncoderFile import HuffmanEncoder
-
+import logging
 
 class MyTestCase(unittest.TestCase):
     # @unittest.skip("Skipping testEncode.")
     def test_1_encode(self):
-        print("-------------------------------------\nTesting encode.")
+        logging.info("-------------------------------------\nTesting encode.")
         encoder = HuffmanEncoder("I'm here to kick butt and chew bubblegum. And I'm all out of bubblegum.")
         encoder.build_frequency_dictionary()
         encoder.build_priority_queue()
@@ -27,7 +27,7 @@ class MyTestCase(unittest.TestCase):
 
     # @unittest.skip("Skipping testdecode.")
     def test_2_decode(self):
-        print("------------------------------------\nTesting decode.")
+        logging.info("------------------------------------\nTesting decode.")
         encoder = HuffmanEncoder("Where in the world is Carmen Sandiego?")
         encoder.do_setup()
         sequence_to_decode = [0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0,
@@ -37,7 +37,7 @@ class MyTestCase(unittest.TestCase):
                          "Decoded phrase does not match.")
 
     def test_3_short_encode_decode(self):
-        print("-----------------------------------\nTesting short encode decode")
+        logging.info("-----------------------------------\nTesting short encode decode")
         douglas_adams = ("There is an art to flying, or rather a knack. The knack lies in learning how to throw "
                          "yourself at the ground and miss.")
         encoder = HuffmanEncoder(douglas_adams)
@@ -45,13 +45,13 @@ class MyTestCase(unittest.TestCase):
         encoded_flying_quote = encoder.encode_message(douglas_adams)
         decoded_flying_quote = encoder.decode_message(encoded_flying_quote)
         self.assertEqual(douglas_adams, decoded_flying_quote)
-        print(decoded_flying_quote)
-        print(f"Original size in ASCII: {8 * len(douglas_adams)} bits ({len(douglas_adams)} bytes)")
-        print(f"encoded length: {len(encoded_flying_quote)} bits ({int(len(encoded_flying_quote) / 8+0.9)} bytes)")
-        print(f"compression ratio: {len(encoded_flying_quote) / len(douglas_adams) / 8 * 100:3.2f}%")
+        logging.info(decoded_flying_quote)
+        logging.info(f"Original size in ASCII: {8 * len(douglas_adams)} bits ({len(douglas_adams)} bytes)")
+        logging.info(f"encoded length: {len(encoded_flying_quote)} bits ({int(len(encoded_flying_quote) / 8+0.9)} bytes)")
+        logging.info(f"compression ratio: {len(encoded_flying_quote) / len(douglas_adams) / 8 * 100:3.2f}%")
 
     def test_4_long_encode_decode(self):
-        print("-----------------------------------\nTesting long encode decode")
+        logging.info("-----------------------------------\nTesting long encode decode")
         gettysberg = ("Four score and seven years ago our fathers brought forth on this continent, a new nation, " 
                       "conceived in Liberty, and dedicated to the proposition that all men are created equal.\n" 
                       "Now we are engaged in a great civil war, testing whether that nation, or any nation so " 
@@ -76,11 +76,11 @@ class MyTestCase(unittest.TestCase):
 
         reset_getty = encoder.decode_message(encoded_getty)
         self.assertEqual(gettysberg, reset_getty)
-        print(reset_getty)
+        logging.info(reset_getty)
 
-        print(f"Original size in ASCII: {8 * len(gettysberg)} bits ({len(gettysberg)} bytes)")
-        print(f"encoded length: {len(encoded_getty)} bits ({int(len(encoded_getty)/8+0.9)} bytes)")
-        print(f"compression ratio: {(len(encoded_getty) / len(gettysberg) / 8 * 100):3.2f}%")
+        logging.info(f"Original size in ASCII: {8 * len(gettysberg)} bits ({len(gettysberg)} bytes)")
+        logging.info(f"encoded length: {len(encoded_getty)} bits ({int(len(encoded_getty)/8+0.9)} bytes)")
+        logging.info(f"compression ratio: {(len(encoded_getty) / len(gettysberg) / 8 * 100):3.2f}%")
 
     def test_encoder_exception(self):
         encoder = HuffmanEncoder("There can be only one.")

@@ -1,59 +1,80 @@
 import unittest
 from HuffmanEncoderFile import HuffmanEncoder
-
+from TreeNodesFile import TreeNode, JointNode, LeafNode
+import logging
 
 class MyTestCase(unittest.TestCase):
 
-    def test_build_tree(self):
+    def test_1_build_tree(self):
         encoder = HuffmanEncoder("May the force be with you, always.")
         encoder.build_frequency_dictionary()
         encoder.build_priority_queue()
         encoder.build_tree()
-        print("This is your tree:")
-        encoder.encoding_tree.print_tree()
-        print("----------------------------------------")
-        print("This is what Mr. Howe's looked like.")
-        print("""
-                       [i]
-            <
-                    [u]
-                <
-                    [b]
-        <
-            [y]
-    <
-                [o]
-            <
-                    [M]
-                <
-                    [.]
-        <
-                    [f]
-                <
-                    [,]
-            <
-                [h]
-<
-                    [l]
-                <
-                    [s]
-            <
-                [t]
-        <
-                [w]
-            <
-                    [r]
-                <
-                    [c]
-    <
-            [ ]
-        <
-                [e]
-            <
-                [a]
------------------------------------------
-""")
+        expected_tree = JointNode(  # 19
+                                   JointNode(  # 10A
+                                             JointNode(  # 4A
+                                                        JointNode(  # 3A
+                                                                  LeafNode("i"),  # 2A
+                                                                  JointNode(  # 2B
+                                                                             LeafNode("u"),  # 1A
+                                                                             LeafNode("b")  # 1B
+                                                                           )
+                                                                 ),
+                                                        LeafNode("y")  # 3B
+                                                       ),
+                                               JointNode(  # 4B
+                                                          JointNode(  # 5A
+                                                                    LeafNode("o"), # 6A
+                                                                    JointNode(  # 6B
+                                                                              LeafNode("M"),  # 7A
+                                                                              LeafNode(".")  # 7B
+                                                                              )
+                                                                   ),
+                                                          JointNode(  # 5B
+                                                                    JointNode(  # 8A
+                                                                               LeafNode("f"),  # 9A
+                                                                               LeafNode(",")  # 9B
+                                                                              ),
+                                                                    LeafNode("h")  # 8B
+                                                                   )
+                                                        )
 
+                                             ),
+                                    JointNode(  # 10B
+                                               JointNode(  # 16A
+                                                          JointNode(  # 13A
+                                                                     JointNode(  # 12A
+                                                                                LeafNode("l"),  # 11A
+                                                                                LeafNode("s")  # 11B
+                                                                              ),
+                                                                     LeafNode("t")  # 12B
+                                                                   ),
+                                                          JointNode(  # 13B
+                                                                     LeafNode("w"),  # 14A
+                                                                     JointNode(  # 14B
+                                                                                LeafNode("r"),  # 15A
+                                                                                LeafNode("c")  # 15B
+                                                                              )
+                                                                   )
+                                                        ),
+                                               JointNode(  # 16B
+                                                          LeafNode(" "),  # 17A
+                                                          JointNode(  # 17B
+                                                                    LeafNode("e"),  # 18A
+                                                                    LeafNode("a")  # 18B
+                                                                   )
+                                                        )
+                                            )
+
+                                 )
+        logging.info(f"This is your tree (Root is on the left side. \"left\" nodes are printed above \"right\" ones.):"
+                     f"\n{encoder.encoding_tree.string_of_tree()}")
+        logging.info("----------------------------------------")
+        logging.info(f"This is what Mr. Howe's looked like.\n{expected_tree.string_of_tree()}")
+
+        self.assertTrue(compareTrees(expected_tree, encoder.encoding_tree))
+        logging.info ("If you got this far, the trees match.")
+        logging.info("Now creating the encode dictionary from your tree.")
         encoder.build_encode_dictionary_with_tree()
 
         expected = {"a": [1, 1, 1, 1], "b": [0, 0, 0, 1, 1], "c": [1, 0, 1, 1, 1], "e": [1, 1, 1, 0],
@@ -64,18 +85,19 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual(len(expected), len(encoder.encode_dictionary),
                          "expected and encoder have different number of keys.")
-
+        logging.info("key\tYours\t\t\t\t\t\tExpected")
         for item in sorted(encoder.encode_dictionary.keys()):
-            print(f"\"{item}\" : {encoder.encode_dictionary[item]}")
+            logging.info(f"\"{item}\" : {encoder.encode_dictionary[item]}\t\t\t{expected[item]}")
             self.assertTrue(item in expected, "unexpected key in the encode_dictionary")
             self.assertEqual(expected[item], encoder.encode_dictionary[item], f"Value for {item} did not match.")
 
-    def test_build_long(self):
+    def test_2_build_long(self):
         """
-        Tests whether we can build a encoder dictionary for a long piece of text.
+        Tests whether we can build an encoder dictionary for a long piece of text.
         Sample text is the opening chapter of "Foundation" by Isaac Asimov, copyright 1951
         :return:
         """
+        pass
         source_text = """
         HARI SELDON—. . . born in the 11,988th year of the Galactic Era; died 12,069. The dates are more commonly given in terms of the current Foundational Era as -79 to the year 1 F.E. Born to middle-class parents on Helicon, Arcturus sector (where his father, in a legend of doubtful authenticity, was a tobacco grower in the hydroponic plants of the planet), he early showed amazing ability in mathematics. Anecdotes concerning his ability are innumerable, and some are contradictory. At the age of two, he is said to have . . .
 
@@ -128,10 +150,15 @@ Gaal looked back, "Thank you very much."
 It was childish to feel disappointed, but childishness comes almost as naturally to a man as to a child, and there was a lump in Gaal's throat. He had never seen Trantor spread out in all its incredibility, as large as life, and he hadn't expected to have to wait longer."""
 
         encoder = HuffmanEncoder(source_text)
+        logging.info("building frequency dictionary...")
         encoder.build_frequency_dictionary()
+        logging.info("building priority queue")
         encoder.build_priority_queue()
+        logging.info("Building tree. This one is too big for me to manually create one to compare to.")
         encoder.build_tree()
+        logging.info(f"Here is your tree:\n{encoder.encoding_tree.string_of_tree()}")
 
+        logging.info("Now building encode dictionary with your tree.")
         encoder.build_encode_dictionary_with_tree()
 
         expected = {"\n": [1, 0, 0, 1, 0, 1, 1], " ": [1, 1, 1], "\"": [1, 1, 0, 0, 1, 1, 0, 1, 1],
@@ -166,11 +193,26 @@ It was childish to feel disappointed, but childishness comes almost as naturally
         self.assertEqual(len(expected), len(encoder.encode_dictionary),
                          "expected and encoder have different number of keys.")
 
-
-        for item in encoder.encode_dictionary.keys():
+        logging.info("key\tYours\t\t\t\t\t\t\t\tExpected")
+        for item in sorted(encoder.encode_dictionary.keys()):
+            logging.info(f"\"{item}\" : {encoder.encode_dictionary[item]}\t\t\t\t\t{expected[item]}")
             self.assertTrue(item in expected, "unexpected key in the encode_dictionary")
             self.assertEqual(expected[item], encoder.encode_dictionary[item], f"Value for {item} did not match.")
 
+
+def compareTrees(root1: TreeNode, root2: TreeNode) -> bool:
+    if root1 is None and root2 is None:
+        return True
+    if root1 is None:
+        logging.debug(f"Structure of trees does not match. Second tree has a node at {root2.value} that first tree does not.")
+        return False
+    if root2 is None:
+        logging.debug(f"Structure of trees does not match. First tree has a node at {root1.value} that second tree does not.")
+        return False
+    if root1.value != root2.value:
+        logging.debug(f"Mismatched values in trees. {root1.value} != {root2.value}.")
+        return False
+    return compareTrees(root1.left, root2.left) and compareTrees(root1.right, root2.right)
 
 if __name__ == '__main__':
     unittest.main()
