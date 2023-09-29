@@ -1,6 +1,6 @@
 import unittest
 from HuffmanEncoderFile import HuffmanEncoder
-
+import logging
 
 class MyTestCase(unittest.TestCase):
 
@@ -16,7 +16,7 @@ class MyTestCase(unittest.TestCase):
         expected = {"T": 1, "h": 1, "e": 1, " ": 3, "q": 1, "u": 1, "i": 1, "c": 1, "k": 1, "b": 1, "r": 1,
                     "o": 2, "w": 1, "n": 1, "f": 1, "x": 1}
         self.assertEqual(encoder.freq_dict, expected, "Did not get expected dictionary.")
-        print(encoder.freq_dict)
+        logging.info(encoder.freq_dict)
 
 
 if __name__ == '__main__':
